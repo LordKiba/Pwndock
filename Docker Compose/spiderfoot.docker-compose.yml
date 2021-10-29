@@ -1,0 +1,30 @@
+version: '3.3'
+
+volumes:
+  spiderfoot_data:
+    driver: local
+
+services:
+  spiderfoot:
+  
+    image: spiderfoot # image built locally from github repo https://github.com/smicallef/spiderfoot instructions found https://www.spiderfoot.net/a-simpler-way-to-get-spiderfoot-running-is-to-use-docker/ 
+
+    container_name: spiderfoot
+    hostname: spiderfoot
+
+    environment:
+      - TZ=America/New_York
+
+    volumes:
+      - spiderfoot_data/var/lib/spiderfoot
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.osint-spiderfoot.entrypoints=websecure
+      - traefik.http.routers.osint-spiderfoot.rule=Host(`sf.tools.local`)
+      - traefik.http.routers.osint-spiderfoot.tls=true
+      - traefik.http.routers.osint-spiderfoot.service=osint-spiderfoot
+      - traefik.http.services.osint-spiderfoot.loadbalancer.server.port=5001
+      - com.centurylinklabs.watchtower.enable=false
+
+    restart: unless-stopped
