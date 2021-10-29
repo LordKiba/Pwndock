@@ -1,0 +1,29 @@
+version: "3.3"
+
+volumes:
+  postgres:
+    driver: local
+
+services:
+
+  guacamole:
+    image: oznu/guacamole
+    container_name: guacamole
+    hostname: guacamole
+
+    environment:
+      - TZ=America/New_York
+
+    volumes:
+      - postgres:/config
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.apache-guac.entrypoints=websecure
+      - traefik.http.routers.apache-guac.rule=Host(`gateway.tools.local`)
+      - traefik.http.routers.apache-guac.tls=true
+      - traefik.http.routers.apache-guac.service=apache-guac
+      - traefik.http.services.apache-guac.loadbalancer.server.port=8080
+      - com.centurylinklabs.watchtower.enable=true
+
+    restart: unless-stopped

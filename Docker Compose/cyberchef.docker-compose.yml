@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+    cyberchef:
+        image: mpepping/cyberchef
+        container_name: cyberchef
+        hostname: cyberchef
+
+        environment:
+          - TZ=America/New_York
+
+        labels:
+          - traefik.enable=true
+          - traefik.http.routers.cyberchef.entrypoints=websecure
+          - traefik.http.routers.cyberchef.rule=Host(`cyberchef.tools.local`)
+          - traefik.http.routers.cyberchef.tls=true
+          - traefik.http.routers.cyberchef.service=cyberchef
+          - traefik.http.services.cyberchef.loadbalancer.server.port=8000
+          - com.centurylinklabs.watchtower.enable=true # Enable image update from watchtower 
+
+        restart: unless-stopped

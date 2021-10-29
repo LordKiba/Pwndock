@@ -1,0 +1,41 @@
+version: "3.3"
+
+volumes:
+  portainer_data:
+    driver: local
+
+services:
+  portainer:
+      image: portainer/portainer-ce
+      container_name: portainer-ce
+      hostname: portainer
+
+      environment:
+        - TZ=America/New_York
+
+      command: -H unix:///var/run/docker.sock #start portainer with access to local docker socket 
+    
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock # access to local docker socket to monitor docker labels 
+        - portainer_data:/data
+
+      labels:
+        # Frontend
+        - "traefik.enable=true"
+        - "traefik.http.routers.portainer-frontend.rule=Host(`docker.tools.local`)"
+        - "traefik.http.routers.portainer-frontend.entrypoints=websecure"
+        - "traefik.http.services.portainer-frontend.loadbalancer.server.port=9000"
+        - "traefik.http.routers.portainer-frontend.service=portainer-frontend"
+        - "traefik.http.routers.portainer-frontend.tls=true"
+      
+        # Edge
+        - "traefik.http.routers.portainer-edge.rule=Host(`edge.docker.tools.local`)"
+        - "traefik.http.routers.portainer-edge.entrypoints=websecure"
+        - "traefik.http.services.portainer-edge.loadbalancer.server.port=8000"
+        - "traefik.http.routers.portainer-edge.service=portainer-edge"
+        - "traefik.http.routers.portainer-edge.tls=true"
+        
+        #other
+        - com.centurylinklabs.watchtower.enable=true # Enable image update from watchtower 
+
+  restart: unless-stopped

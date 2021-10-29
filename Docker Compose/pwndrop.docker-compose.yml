@@ -1,0 +1,29 @@
+version: "3.3"
+
+volumes:
+  pwndrop_config:
+    driver: local
+
+services:
+  pwndrop:
+    image: lscr.io/linuxserver/pwndrop
+    container_name: pwndrop
+    hostname: file-share
+
+    environment:
+      - TZ=America/New_York
+      - SECRET_PATH=/pwndrop-adm
+
+    volumes:
+      - pwndrop_config:/config
+
+    labels:
+      - traefik.enable=true"
+      - traefik.http.routers.pwndrop-entry.rule=Host(`drop.tools.local`)
+      - traefik.http.routers.pwndrop-entry.entrypoints=websecure
+      - traefik.http.services.pwndrop-entry.loadbalancer.server.port=8080
+      - traefik.http.routers.pwndrop-entry.service=pwndrop-entry
+      - traefik.http.routers.pwndrop-entry.tls=true
+      - com.centurylinklabs.watchtower.enable=true # Enable image update from watchtower 
+
+    restart: unless-stopped

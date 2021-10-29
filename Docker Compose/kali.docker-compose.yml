@@ -1,0 +1,47 @@
+version: '3.3'
+
+volumes:
+  postgresql_data:
+    driver: local
+    volumes:
+  neo4j_data:
+    driver: local
+
+services:
+  kali:
+    image: "kalilinux/kali-rolling"
+    container_name: kali
+    hostname: kali
+
+    environment:
+      - TZ=America/New_York
+
+    volumes:
+      - /Users/user/Docker/Kali-Root:/root
+      - postgresql_data:/var/lib/postgresql
+      - neo4j_data:/var/lib/neo4j
+      - /Users/user/GIT Repos/GitHub:/usr/local/src/git
+
+    stdin_open: true
+    tty: true
+
+    labels:
+      - traefik.enable=true
+
+      #faraday
+      - traefik.http.routers.kali-faraday.entrypoints=websecure
+      - traefik.http.routers.kali-faraday.rule=Host(`faraday.tools.local`)
+      - traefik.http.routers.kali-faraday.tls=true
+      - traefik.http.routers.kali-faraday.service=kali-faraday
+      - traefik.http.services.kali-faraday.loadbalancer.server.port=5985
+
+      # neo4j main 
+      - traefik.http.routers.kali-bloodhound.entrypoints=websecure      
+      - traefik.http.routers.kali-bloodhound.rule=Host(`bloodhound.tools.local`)
+      - traefik.http.routers.kali-bloodhound.service=kali-bloodhound
+      - traefik.http.routers.kali-bloodhound.tls=true
+      - traefik.http.services.kali-bloodhound.loadbalancer.server.port=7474
+
+      - com.centurylinklabs.watchtower.enable=false
+
+    restart: unless-stopped

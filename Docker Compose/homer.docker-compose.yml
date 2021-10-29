@@ -1,0 +1,26 @@
+version: "3.3"
+
+services:
+  homer:
+    image: b4bz/homer
+    container_name: homer
+    hostname: dashboard
+
+    volumes:
+      - /Users/username/Docker/Homer-Assets:/www/assets # update path to homer assets
+
+    environment:
+      - TZ=America/New_York
+      - UID=1000 # UID to match permissions on local Homer-Assets directory 
+      - GID=1000 # GID to match permissions on local Homer-Assets directory
+
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.dash-homer.entrypoints=websecure
+      - traefik.http.routers.dash-homer.rule=Host(`tools.local`)
+      - traefik.http.routers.dash-homer.tls=true
+      - traefik.http.routers.dash-homer.service=dash-homer
+      - traefik.http.services.dash-homer.loadbalancer.server.port=8080
+      - com.centurylinklabs.watchtower.enable=true # Enable image update from watchtower
+
+    restart: unless-stopped

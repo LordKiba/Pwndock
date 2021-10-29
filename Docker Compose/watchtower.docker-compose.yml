@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower 
+    hostname: watchtower
+
+    environment:
+      - TZ=America/New_York
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro # access to local docker socket to monitor docker labels 
+
+    command: --interval 86400 --cleanup # Set check interval to 24 hours and force removal of old images 
+
+    restart: unless-stopped  
