@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+  xray:
+    image: xraydocker
+    container_name: xray
+    hostname: xray
+
+    environment:
+      - TZ=America/New_York #Set host Timezone
+
+    command: xray -address 0.0.0.0 -port 8080 -shodan-key shodan_key_here -viewdns-key viewdns_key_here -domain target_domain.tld #docker instance is intended to be spun up to execute scan of single domain on demand as needed 
+
+    labels:
+      #Enable monitoring with Traefik Proxy
+      - traefik.enable=true
+      #Configure traefilk Proxy Route
+      - traefik.http.routers.xray.entrypoints=websecure
+      - traefik.http.routers.xray.rule=Host(`xray.tools.local`)
+      - traefik.http.routers.xray.tls=true
+      - traefik.http.routers.xray.service=xray
+      - traefik.http.routers.xray.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+      #Configure host services in Traefik Proxy 
+      - traefik.http.services.xray.loadbalancer.server.port=8080
+      #Enable auto image updates with Watchtower 
+      - com.centurylinklabs.watchtower.enable=false
+
+    restart: unless-stopped  
