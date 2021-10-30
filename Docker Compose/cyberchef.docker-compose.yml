@@ -7,15 +7,20 @@ services:
         hostname: cyberchef
 
         environment:
-          - TZ=America/New_York
+          - TZ=America/New_York #Set host Timezone
 
         labels:
+          #Enable monitoring with Traefik Proxy
           - traefik.enable=true
+          #Configure traefilk Proxy Route
           - traefik.http.routers.cyberchef.entrypoints=websecure
           - traefik.http.routers.cyberchef.rule=Host(`cyberchef.tools.local`)
           - traefik.http.routers.cyberchef.tls=true
           - traefik.http.routers.cyberchef.service=cyberchef
+          - traefik.http.routers.cyberchef.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+          #Configure host services in Traefik Proxy  
           - traefik.http.services.cyberchef.loadbalancer.server.port=8000
-          - com.centurylinklabs.watchtower.enable=true # Enable image update from watchtower 
+          #Enable auto image updates with Watchtower 
+          - com.centurylinklabs.watchtower.enable=true 
 
         restart: unless-stopped

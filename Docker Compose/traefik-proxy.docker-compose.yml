@@ -11,22 +11,29 @@ services:
     hostname: proxy
 
     environment:
-      - TZ=America/New_York
+      - TZ=America/New_York #Set host Timezone
 
     ports:
-      - "80:80"
-      - "443:443"
+      - "80:80" #Expose port 80 for HTTPS redirector
+      - "443:443" # Expose HTTPS Web access port 
 
     volumes:
       - /etc/traefik:/etc/traefik # path to local traefik config file
-      - traefik-ssl-certs:/ssl-certs
+      - traefik-ssl-certs:/ssl-certs # Persistant dockervolume to store dynamic config files and Acame issued certificates 
       - /var/run/docker.sock:/var/run/docker.sock:ro # access to local docker socket to monitor docker labels 
 
     labels:
+      #Enable monitoring with Traefik Proxy
       - traefik.enable=true
+      #Configure traefilk Proxy Route
       - traefik.http.routers.traefik-dashboard.entrypoints=websecure
       - traefik.http.routers.traefik-dashboard.rule=Host(`traefik.tools.local`)
       - traefik.http.routers.traefik-dashboard.tls=true
       - traefik.http.routers.traefik-dashboard.service=traefik-dashboard
+      - traefik.http.routers.traefik-dashboard.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+        #Configure host services in Traefik Proxy 
       - traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080  
+      #Enable auto image updates with Watchtower 
       - com.centurylinklabs.watchtower.enable=true # Enable image update from watchtower 
+    
+     restart: unless-stopped  

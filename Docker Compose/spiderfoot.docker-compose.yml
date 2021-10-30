@@ -13,18 +13,23 @@ services:
     hostname: spiderfoot
 
     environment:
-      - TZ=America/New_York
+      - TZ=America/New_York #Set host Timezone
 
     volumes:
-      - spiderfoot_data/var/lib/spiderfoot
+      - spiderfoot_data:/var/lib/spiderfoot #Persist Spiderfoot data in docker Volume
 
     labels:
+      #Enable monitoring with Traefik Proxy
       - traefik.enable=true
+      #Configure traefilk Proxy Route
       - traefik.http.routers.osint-spiderfoot.entrypoints=websecure
       - traefik.http.routers.osint-spiderfoot.rule=Host(`sf.tools.local`)
       - traefik.http.routers.osint-spiderfoot.tls=true
       - traefik.http.routers.osint-spiderfoot.service=osint-spiderfoot
+      - traefik.http.routers.osint-spiderfoot.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+      #Configure host services in Traefik Proxy 
       - traefik.http.services.osint-spiderfoot.loadbalancer.server.port=5001
+      #Disable auto image updates with Watchtower 
       - com.centurylinklabs.watchtower.enable=false
 
     restart: unless-stopped

@@ -7,20 +7,25 @@ services:
     hostname: dashboard
 
     volumes:
-      - /Users/username/Docker/Homer-Assets:/www/assets # update path to homer assets
+      - /Users/username/Docker/Homer-Assets:/www/assets # Path to Homer assetts (allows update of pages from docker host OS)
 
     environment:
-      - TZ=America/New_York
+      - TZ=America/New_York #Set host Timezone
       - UID=1000 # UID to match permissions on local Homer-Assets directory 
       - GID=1000 # GID to match permissions on local Homer-Assets directory
 
     labels:
+      #Enable monitoring with Traefik Proxy
       - traefik.enable=true
+      #Configure traefilk Proxy Route
       - traefik.http.routers.dash-homer.entrypoints=websecure
       - traefik.http.routers.dash-homer.rule=Host(`tools.local`)
       - traefik.http.routers.dash-homer.tls=true
       - traefik.http.routers.dash-homer.service=dash-homer
+      - traefik.http.routers.cyberchef.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+      #Configure host services in Traefik Proxy 
       - traefik.http.services.dash-homer.loadbalancer.server.port=8080
-      - com.centurylinklabs.watchtower.enable=true # Enable image update from watchtower
+      #Enable auto image updates with Watchtower 
+      - com.centurylinklabs.watchtower.enable=true
 
     restart: unless-stopped

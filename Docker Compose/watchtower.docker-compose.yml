@@ -7,7 +7,7 @@ services:
     hostname: watchtower
 
     environment:
-      - TZ=America/New_York
+      - TZ=America/New_York #Set host Timezone
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro # access to local docker socket to monitor docker labels 

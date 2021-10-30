@@ -14,34 +14,42 @@ services:
     hostname: kali
 
     environment:
-      - TZ=America/New_York
+      - TZ=America/New_York #Set host Timezone
 
     volumes:
-      - /Users/user/Docker/Kali-Root:/root
-      - postgresql_data:/var/lib/postgresql
-      - neo4j_data:/var/lib/neo4j
-      - /Users/user/GIT Repos/GitHub:/usr/local/src/git
+      - /Users/user/Docker/Kali-Root:/root  #Persist Root user home directory
+      - postgresql_data:/var/lib/postgresql #Persist Postgres DB for MSF and Fareday 
+      - neo4j_data:/var/lib/neo4j           #Persist Neo4j DB 
+      - /Users/user/GIT Repos/GitHub:/usr/local/src/git #allow access to local docker host Git repos (Optional)
 
     stdin_open: true
     tty: true
 
     labels:
+      #Enable monitoring with Traefik Proxy
       - traefik.enable=true
 
-      #faraday
+      #Faraday Service Configuration
+      #Configure traefilk Proxy Route
       - traefik.http.routers.kali-faraday.entrypoints=websecure
       - traefik.http.routers.kali-faraday.rule=Host(`faraday.tools.local`)
       - traefik.http.routers.kali-faraday.tls=true
       - traefik.http.routers.kali-faraday.service=kali-faraday
+      - traefik.http.routers.kali-faraday.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+      #Configure host services in Traefik Proxy 
       - traefik.http.services.kali-faraday.loadbalancer.server.port=5985
 
-      # neo4j main 
+      #Neo4j web interface Service Configuration
+      #Configure traefilk Proxy Route
       - traefik.http.routers.kali-bloodhound.entrypoints=websecure      
       - traefik.http.routers.kali-bloodhound.rule=Host(`bloodhound.tools.local`)
       - traefik.http.routers.kali-bloodhound.service=kali-bloodhound
       - traefik.http.routers.kali-bloodhound.tls=true
+      - traefik.http.routers.kali-bloodhound.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+      #Configure host services in Traefik Proxy 
       - traefik.http.services.kali-bloodhound.loadbalancer.server.port=7474
-
+      
+      #Disable auto image updates with Watchtower 
       - com.centurylinklabs.watchtower.enable=false
 
     restart: unless-stopped
