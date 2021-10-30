@@ -12,13 +12,13 @@ services:
         labels:
           #Enable monitoring with Traefik Proxy
           - traefik.enable=true
-          - traefik.docker.network=cyberchef_default # Configure Traefik to autojoin stack network
+          - traefik.docker.network=cyberchef_default #Configure Traefik to autojoin stack network
           #Configure traefilk Proxy Route
           - traefik.http.routers.cyberchef.entrypoints=websecure
           - traefik.http.routers.cyberchef.rule=Host(`cyberchef.tools.local`)
           - traefik.http.routers.cyberchef.tls=true
           - traefik.http.routers.cyberchef.service=cyberchef
-          - traefik.http.routers.cyberchef.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+          - traefik.http.routers.cyberchef.middlewares=error-pages-middleware@docker #Enable Custom Errorpages for Router
           #Configure host services in Traefik Proxy  
           - traefik.http.services.cyberchef.loadbalancer.server.port=8000
           #Enable auto image updates with Watchtower 

@@ -7,7 +7,7 @@ volumes:
 services:
   spiderfoot:
   
-    image: spiderfoot # image built locally from github repo https://github.com/smicallef/spiderfoot instructions found https://www.spiderfoot.net/a-simpler-way-to-get-spiderfoot-running-is-to-use-docker/ 
+    image: spiderfoot #image built locally from github repo https://github.com/smicallef/spiderfoot instructions found https://www.spiderfoot.net/a-simpler-way-to-get-spiderfoot-running-is-to-use-docker/ 
 
     container_name: spiderfoot
     hostname: spiderfoot
@@ -21,13 +21,13 @@ services:
     labels:
       #Enable monitoring with Traefik Proxy
       - traefik.enable=true
-      - traefik.docker.network=osint-spiderfoot_default # Configure Traefik to autojoin stack network
+      - traefik.docker.network=osint-spiderfoot_default #Configure Traefik to autojoin stack network
       #Configure traefilk Proxy Route
       - traefik.http.routers.osint-spiderfoot.entrypoints=websecure
       - traefik.http.routers.osint-spiderfoot.rule=Host(`sf.tools.local`)
       - traefik.http.routers.osint-spiderfoot.tls=true
       - traefik.http.routers.osint-spiderfoot.service=osint-spiderfoot
-      - traefik.http.routers.osint-spiderfoot.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+      - traefik.http.routers.osint-spiderfoot.middlewares=error-pages-middleware@docker #Enable Custom Errorpages for Router
       #Configure host services in Traefik Proxy 
       - traefik.http.services.osint-spiderfoot.loadbalancer.server.port=5001
       #Disable auto image updates with Watchtower 

@@ -10,8 +10,8 @@ services:
       - TZ=America/New_York #Set host Timezone
 
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro # access to local docker socket to monitor docker labels 
+      - /var/run/docker.sock:/var/run/docker.sock:ro #access to local docker socket to monitor docker labels 
 
-    command: --interval 86400 --cleanup # Set check interval to 24 hours and force removal of old images 
+    command: --interval 86400 --cleanup #Set check interval to 24 hours and force removal of old images 
 
     restart: unless-stopped  

@@ -13,14 +13,14 @@ services:
     labels:
       #Enable monitoring with Traefik Proxy
       - traefik.enable=true
-      - traefik.docker.network=http_error_pages_default # Configure Traefik to autojoin stack network
+      - traefik.docker.network=http_error_pages_default #Configure Traefik to autojoin stack network
       #Configure traefilk Proxy Route 
-      # use as "fallback" for any non-registered services (with priority below normal)
+      #use as "fallback" for any non-registered services (with priority below normal)
       - traefik.http.routers.error-pages-router.rule=HostRegexp(`{host:.+}`)
       - traefik.http.routers.error-pages-router.priority=10
       - traefik.http.routers.error-pages-router.tls=true
       - traefik.http.routers.error-pages-router.entrypoints=websecure
-      - traefik.http.routers.error-pages-router.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+      - traefik.http.routers.error-pages-router.middlewares=error-pages-middleware@docker #Enable Custom Errorpages for Router
       #Configure host services in Traefik Proxy   
       - traefik.http.services.error-pages-service.loadbalancer.server.port=8080
       #Configure traefik middleware to handle error http error response

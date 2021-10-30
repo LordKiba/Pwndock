@@ -28,14 +28,14 @@ services:
     labels:
       #Enable monitoring with Traefik Proxy
       - traefik.enable=true
-      - traefik.docker.network=kali_default # Configure Traefik to autojoin stack network
+      - traefik.docker.network=kali_default #Configure Traefik to autojoin stack network
       #Faraday Service Configuration
       #Configure traefilk Proxy Route
       - traefik.http.routers.kali-faraday.entrypoints=websecure
       - traefik.http.routers.kali-faraday.rule=Host(`faraday.tools.local`)
       - traefik.http.routers.kali-faraday.tls=true
       - traefik.http.routers.kali-faraday.service=kali-faraday
-      - traefik.http.routers.kali-faraday.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+      - traefik.http.routers.kali-faraday.middlewares=error-pages-middleware@docker #Enable Custom Errorpages for Router
       #Configure host services in Traefik Proxy 
       - traefik.http.services.kali-faraday.loadbalancer.server.port=5985
 
@@ -45,7 +45,7 @@ services:
       - traefik.http.routers.kali-bloodhound.rule=Host(`bloodhound.tools.local`)
       - traefik.http.routers.kali-bloodhound.service=kali-bloodhound
       - traefik.http.routers.kali-bloodhound.tls=true
-      - traefik.http.routers.kali-bloodhound.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+      - traefik.http.routers.kali-bloodhound.middlewares=error-pages-middleware@docker #Enable Custom Errorpages for Router
       #Configure host services in Traefik Proxy 
       - traefik.http.services.kali-bloodhound.loadbalancer.server.port=7474
       

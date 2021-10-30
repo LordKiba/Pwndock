@@ -1,33 +1,33 @@
 global:
   checkNewVersion: true
-  sendAnonymousUsage: false  # true by default
+  sendAnonymousUsage: false  #true by default
 
-# (Optional) Log information
-# ---
+#(Optional) Log information
+#---
 log:
- level: ERROR  # DEBUG, INFO, WARNING, ERROR, CRITICAL
- format: common  # common, json, logfmt
+ level: ERROR  #DEBUG, INFO, WARNING, ERROR, CRITICAL
+ format: common  #common, json, logfmt
  filePath: /var/log/traefik/traefik.log
 
-# (Optional) Accesslog
-# ---
+#(Optional) Accesslog
+#---
 accesslog:
-  format: common  # common, json, logfmt
+  format: common  #common, json, logfmt
   filePath: /var/log/traefik/access.log
 
-# (Optional) Enable API and Dashboard
-# ---
+#(Optional) Enable API and Dashboard
+#---
 api:
- dashboard: true  # true by default
- insecure: true  # Don't do this in production!
+ dashboard: true  #true by default
+ insecure: true  #Don't do this in production!
 
-# Entry Points configuration
-# ---
+#Entry Points configuration
+#---
 entryPoints:
   web:
     address: :80
-    # (Optional) Redirect to HTTPS
-    # ---
+    #(Optional) Redirect to HTTPS
+    #---
     http:
       redirections:
         entryPoint:
@@ -37,36 +37,36 @@ entryPoints:
   websecure:
     address: :443
 
-# Certificates configuration
-# ---
-# TODO: Custmoize your Cert Resolvers and Domain settings
+#Certificates configuration
+#---
+#TODO: Custmoize your Cert Resolvers and Domain settings
 #
 certificatesResolvers:
-# LET'S ENCRYPT:
-# ---
+#LET'S ENCRYPT:
+#---
 #
   staging:
     acme:
-      email: admin@example.com # TODO: Change this to your email
+      email: admin@example.com #TODO: Change this to your email
       storage: /ssl-certs/acme.json
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
   production:
     acme:
-      email: admin@example.com  # TODO: Change this to your email
+      email: admin@example.com  #TODO: Change this to your email
       storage: /ssl-certs/acme.json
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
       httpChallenge:
         entryPoint: web
 
-# Provider Configuration
-# ---
-# TODO: Customize your Provider Settings if needed
+#Provider Configuration
+#---
+#TODO: Customize your Provider Settings if needed
 #
 providers:
-# DOCKER:
-# ---
+#DOCKER:
+#---
 #
   docker:
-    exposedByDefault: false  # Default is true
+    exposedByDefault: false  #Default is true

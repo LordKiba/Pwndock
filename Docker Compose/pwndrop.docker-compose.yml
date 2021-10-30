@@ -12,7 +12,7 @@ services:
 
     environment:
       - TZ=America/New_York #Set host Timezone
-      - SECRET_PATH=/pwndrop-adm # set web path for Pwndrop login 
+      - SECRET_PATH=/pwndrop-adm #set web path for Pwndrop login 
 
     volumes:
       - pwndrop_config:/config #Persist Pwndrop config in docker volume
@@ -20,16 +20,16 @@ services:
     labels:
       #Enable monitoring with Traefik Proxy
       - traefik.enable=true"
-      - traefik.docker.network=pwndrop_default # Configure Traefik to autojoin stack network
+      - traefik.docker.network=pwndrop_default #Configure Traefik to autojoin stack network
       #Configure traefilk Proxy Route
       - traefik.http.routers.pwndrop-entry.rule=Host(`drop.tools.local`)
       - traefik.http.routers.pwndrop-entry.entrypoints=websecure
       - traefik.http.routers.pwndrop-entry.service=pwndrop-entry
       - traefik.http.routers.pwndrop-entry.tls=true
-      - traefik.http.routers.pwndrop-entry.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+      - traefik.http.routers.pwndrop-entry.middlewares=error-pages-middleware@docker #Enable Custom Errorpages for Router
         #Configure host services in Traefik Proxy 
       - traefik.http.services.pwndrop-entry.loadbalancer.server.port=8080
       #Enable auto image updates with Watchtower 
-      - com.centurylinklabs.watchtower.enable=true # Enable image update from watchtower 
+      - com.centurylinklabs.watchtower.enable=true #Enable image update from watchtower 
 
     restart: unless-stopped

@@ -14,13 +14,13 @@ services:
     labels:
       #Enable monitoring with Traefik Proxy
       - traefik.enable=true
-      - traefik.docker.network=xray_default # Configure Traefik to autojoin stack network
+      - traefik.docker.network=xray_default #Configure Traefik to autojoin stack network
       #Configure traefilk Proxy Route
       - traefik.http.routers.xray.entrypoints=websecure
       - traefik.http.routers.xray.rule=Host(`xray.tools.local`)
       - traefik.http.routers.xray.tls=true
       - traefik.http.routers.xray.service=xray
-      - traefik.http.routers.xray.middlewares=error-pages-middleware@docker # Enable Custom Errorpages for Router
+      - traefik.http.routers.xray.middlewares=error-pages-middleware@docker #Enable Custom Errorpages for Router
       #Configure host services in Traefik Proxy 
       - traefik.http.services.xray.loadbalancer.server.port=8080
       #Enable auto image updates with Watchtower 
