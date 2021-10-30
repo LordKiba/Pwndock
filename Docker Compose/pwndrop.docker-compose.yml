@@ -20,6 +20,7 @@ services:
     labels:
       #Enable monitoring with Traefik Proxy
       - traefik.enable=true"
+      - traefik.docker.network=pwndrop_default # Configure Traefik to autojoin stack network
       #Configure traefilk Proxy Route
       - traefik.http.routers.pwndrop-entry.rule=Host(`drop.tools.local`)
       - traefik.http.routers.pwndrop-entry.entrypoints=websecure

@@ -14,6 +14,7 @@ services:
     labels:
       #Enable monitoring with Traefik Proxy
       - traefik.enable=true
+      - traefik.docker.network=xray_default # Configure Traefik to autojoin stack network
       #Configure traefilk Proxy Route
       - traefik.http.routers.xray.entrypoints=websecure
       - traefik.http.routers.xray.rule=Host(`xray.tools.local`)

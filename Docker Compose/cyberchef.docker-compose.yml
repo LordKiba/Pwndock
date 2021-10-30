@@ -12,6 +12,7 @@ services:
         labels:
           #Enable monitoring with Traefik Proxy
           - traefik.enable=true
+          - traefik.docker.network=cyberchef_default # Configure Traefik to autojoin stack network
           #Configure traefilk Proxy Route
           - traefik.http.routers.cyberchef.entrypoints=websecure
           - traefik.http.routers.cyberchef.rule=Host(`cyberchef.tools.local`)

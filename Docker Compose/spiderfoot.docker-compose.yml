@@ -21,6 +21,7 @@ services:
     labels:
       #Enable monitoring with Traefik Proxy
       - traefik.enable=true
+      - traefik.docker.network=osint-spiderfoot_default # Configure Traefik to autojoin stack network
       #Configure traefilk Proxy Route
       - traefik.http.routers.osint-spiderfoot.entrypoints=websecure
       - traefik.http.routers.osint-spiderfoot.rule=Host(`sf.tools.local`)

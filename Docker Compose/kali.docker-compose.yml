@@ -28,7 +28,7 @@ services:
     labels:
       #Enable monitoring with Traefik Proxy
       - traefik.enable=true
-
+      - traefik.docker.network=kali_default # Configure Traefik to autojoin stack network
       #Faraday Service Configuration
       #Configure traefilk Proxy Route
       - traefik.http.routers.kali-faraday.entrypoints=websecure

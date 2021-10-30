@@ -22,6 +22,7 @@ services:
       labels: 
         #Enable monitoring with Traefik Proxy
         - traefik.enable=true
+        - traefik.docker.network=portainer-ce_default # Configure Traefik to autojoin stack network
         # Frontend Service Configuration
         #Configure traefilk Proxy Route
         - traefik.http.routers.portainer-frontend.rule=Host(`docker.tools.local`)

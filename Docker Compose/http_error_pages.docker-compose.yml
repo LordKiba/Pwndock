@@ -13,6 +13,7 @@ services:
     labels:
       #Enable monitoring with Traefik Proxy
       - traefik.enable=true
+      - traefik.docker.network=http_error_pages_default # Configure Traefik to autojoin stack network
       #Configure traefilk Proxy Route 
       # use as "fallback" for any non-registered services (with priority below normal)
       - traefik.http.routers.error-pages-router.rule=HostRegexp(`{host:.+}`)

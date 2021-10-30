@@ -20,6 +20,7 @@ services:
     labels:
       #Enable monitoring with Traefik Proxy
       - traefik.enable=true
+      - traefik.docker.network=apache-guac_default # Configure Traefik to autojoin stack network
       #Configure traefilk Proxy Route 
       - traefik.http.routers.apache-guac.entrypoints=websecure
       - traefik.http.routers.apache-guac.rule=Host(`gateway.tools.local`)

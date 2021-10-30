@@ -25,6 +25,7 @@ services:
     labels:
       #Enable monitoring with Traefik Proxy
       - traefik.enable=true
+      - traefik.docker.network=traefik-proxy_default # Configure Traefik to autojoin stack network
       #Configure traefilk Proxy Route
       - traefik.http.routers.traefik-dashboard.entrypoints=websecure
       - traefik.http.routers.traefik-dashboard.rule=Host(`traefik.tools.local`)
