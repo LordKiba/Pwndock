@@ -36,6 +36,7 @@ services:
       - traefik.http.routers.nessus.middlewares=error-pages-middleware@docker #Enable Custom Errorpages for Router
       #Configure host services in Traefik Proxy 
       - traefik.http.services.nessus.loadbalancer.server.scheme=https
+      - traefik.http.services.nessus.loadbalancer.passhostheader=true
       - traefik.http.services.nessus.loadbalancer.server.port=8834
        #Disable auto image updates with Watchtower 
       - com.centurylinklabs.watchtower.enable=false

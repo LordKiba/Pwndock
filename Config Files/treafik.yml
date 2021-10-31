@@ -60,6 +60,9 @@ certificatesResolvers:
       httpChallenge:
         entryPoint: web
 
+serversTransport:
+  insecureSkipVerify: true
+  
 #Provider Configuration
 #---
 #TODO: Customize your Provider Settings if needed
