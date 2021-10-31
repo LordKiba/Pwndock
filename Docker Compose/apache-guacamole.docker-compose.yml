@@ -26,7 +26,6 @@ services:
       - traefik.http.routers.apache-guac.rule=Host(`gateway.tools.local`)
       - traefik.http.routers.apache-guac.tls=true
       - traefik.http.routers.apache-guac.service=apache-guac
-      - traefik.http.routers.apache-guac.middlewares=error-pages-middleware@docker #Enable Custom Errorpages for Router
       #Configure host services in Traefik Proxy   
       - traefik.http.services.apache-guac.loadbalancer.server.port=8080
       #Enable auto image updates with Watchtower 
