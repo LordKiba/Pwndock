@@ -33,7 +33,6 @@ services:
       - traefik.http.routers.traefik-dashboard.service=traefik-dashboard
       - traefik.http.routers.traefik-dashboard.middlewares=error-pages-middleware@docker #Enable Custom Errorpages for Router
         #Configure host services in Traefik Proxy 
-      - traefik.http.services.traefik-dashboard.loadbalancer.server.scheme=https
       - traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080  
       #Enable auto image updates with Watchtower 
       - com.centurylinklabs.watchtower.enable=true #Enable image update from watchtower 
